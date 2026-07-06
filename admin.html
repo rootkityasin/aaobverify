@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IDP Card Admin Panel - Automobile Association of Bangladesh</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #0f172a;
+      color: #f8fafc;
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .admin-container {
+      width: 100%;
+      max-width: 650px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+      padding: 30px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .admin-header {
+      margin-bottom: 25px;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .admin-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .admin-subtitle {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      margin-top: 5px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 580px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #cbd5e1;
+    }
+
+    input[type="text"], select {
+      background-color: #0f172a;
+      border: 1px solid #475569;
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: #f8fafc;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+      width: 100%;
+    }
+
+    input[type="text"]:focus, select:focus {
+      outline: none;
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+    }
+
+    /* Photo Upload Area */
+    .photo-upload-container {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      background: #0f172a;
+      padding: 15px;
+      border-radius: 8px;
+      border: 1px dashed #475569;
+    }
+
+    .photo-preview {
+      width: 80px;
+      height: 100px;
+      border: 1px solid #334155;
+      border-radius: 4px;
+      background-color: #1e293b;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .photo-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .photo-preview span {
+      font-size: 0.7rem;
+      color: #64748b;
+      text-align: center;
+    }
+
+    .photo-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex-grow: 1;
+    }
+
+    .file-input-btn {
+      background-color: #334155;
+      color: #f8fafc;
+      border: none;
+      padding: 8px 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: center;
+      transition: background-color 0.2s ease;
+    }
+
+    .file-input-btn:hover {
+      background-color: #475569;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    /* Stamp checkboxes list */
+    .stamps-section {
+      background-color: #0f172a;
+      padding: 15px;
+      border-radius: 8px;
+      border: 1px solid #334155;
+    }
+
+    .stamps-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #cbd5e1;
+      margin-bottom: 10px;
+    }
+
+    .stamps-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    .checkbox-group input {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+      accent-color: #38bdf8;
+    }
+
+    .checkbox-group span {
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      font-weight: 500;
+    }
+
+    /* Action Buttons */
+    .button-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 25px;
+      border-top: 1px solid #334155;
+      padding-top: 20px;
+    }
+
+    .btn {
+      flex-grow: 1;
+      padding: 12px 18px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      border-radius: 8px;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background-color: #0ea5e9;
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background-color: #38bdf8;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+    }
+
+    .btn-secondary {
+      background-color: #334155;
+      color: #f8fafc;
+    }
+
+    .btn-secondary:hover {
+      background-color: #475569;
+    }
+
+    .btn-danger {
+      background-color: #991b1b;
+      color: #f8fafc;
+    }
+
+    .btn-danger:hover {
+      background-color: #b91c1c;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-100px);
+      background-color: #10b981;
+      color: #ffffff;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.3);
+      z-index: 2000;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Success Toast -->
+  <div class="toast" id="toast-success">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"></polyline>
+    </svg>
+    Changes saved successfully!
+  </div>
+
+  <div class="admin-container">
+    
+    <header class="admin-header">
+      <div>
+        <h1 class="admin-title">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+          IDP Card Editor
+        </h1>
+        <p class="admin-subtitle">Update verified information displayed on the IDP verification portal.</p>
+      </div>
+    </header>
+
+    <form id="admin-form" onsubmit="saveData(event)">
+      <div class="form-grid">
+        
+        <!-- (1) Family Name -->
+        <div class="form-group">
+          <label for="familyName">(1) Family Name</label>
+          <input type="text" id="familyName" required>
+        </div>
+
+        <!-- (2) Given Name -->
+        <div class="form-group">
+          <label for="givenName">(2) Given Name(s)</label>
+          <input type="text" id="givenName" required>
+        </div>
+
+        <!-- (3) Place of Birth -->
+        <div class="form-group">
+          <label for="birthPlace">(3) Place of Birth</label>
+          <input type="text" id="birthPlace" required>
+        </div>
+
+        <!-- (4) Date of Birth -->
+        <div class="form-group">
+          <label for="birthDate">(4) Date of Birth (e.g. 13-Jan-1983)</label>
+          <input type="text" id="birthDate" required>
+        </div>
+
+        <!-- (5) Permanent Residence -->
+        <div class="form-group full-width">
+          <label for="residence">(5) Permanent Place of Residence</label>
+          <input type="text" id="residence" required>
+        </div>
+
+        <!-- (6) Sex -->
+        <div class="form-group">
+          <label for="sex">(6) Sex</label>
+          <select id="sex" required>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <!-- (7) Nationality -->
+        <div class="form-group">
+          <label for="nationality">(7) Nationality</label>
+          <input type="text" id="nationality" required>
+        </div>
+
+        <!-- (8) IDP No -->
+        <div class="form-group">
+          <label for="idpNo">(8) IDP No</label>
+          <input type="text" id="idpNo" required>
+        </div>
+
+        <!-- (9) National Driving Licence No -->
+        <div class="form-group">
+          <label for="licenceNo">(9) Driving Licence No</label>
+          <input type="text" id="licenceNo" required>
+        </div>
+
+        <!-- Date of Issue -->
+        <div class="form-group">
+          <label for="issueDate">Date of Issue (e.g. 21-May-2026)</label>
+          <input type="text" id="issueDate" required>
+        </div>
+
+        <!-- Date of Expiry -->
+        <div class="form-group">
+          <label for="expiryDate">Date of Expiry (e.g. 20-May-2027)</label>
+          <input type="text" id="expiryDate" required>
+        </div>
+
+        <!-- Exclusions Line 1 -->
+        <div class="form-group">
+          <label for="exclusions1">Exclusions Line 1 (Optional)</label>
+          <input type="text" id="exclusions1" placeholder="Empty">
+        </div>
+
+        <!-- Exclusions Line 2 -->
+        <div class="form-group">
+          <label for="exclusions2">Exclusions Line 2 (Optional)</label>
+          <input type="text" id="exclusions2" placeholder="Empty">
+        </div>
+
+        <!-- Exclusions Line 3 -->
+        <div class="form-group">
+          <label for="exclusions3">Exclusions Line 3 (Optional)</label>
+          <input type="text" id="exclusions3" placeholder="Empty">
+        </div>
+
+        <!-- Photo Upload -->
+        <div class="form-group full-width">
+          <label>Driver Photo</label>
+          <div class="photo-upload-container">
+            <div class="photo-preview" id="photo-preview-box">
+              <span id="preview-placeholder">No Image<br>Uploaded</span>
+            </div>
+            <div class="photo-controls">
+              <label for="input-photo" class="file-input-btn">Choose Photo File</label>
+              <input type="file" id="input-photo" accept="image/*" onchange="handlePhotoUpload(event)">
+              <p class="admin-subtitle" style="margin-top: 0;">Upload a passport photo (PNG or JPG).</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stamp Checks -->
+        <div class="form-group full-width stamps-section">
+          <div class="stamps-title">Valid Categories (Stamps)</div>
+          <div class="stamps-grid">
+            <label class="checkbox-group">
+              <input type="checkbox" id="stamp-a">
+              <span>Category A (Motorcycle)</span>
+            </label>
+            <label class="checkbox-group">
+              <input type="checkbox" id="stamp-b">
+              <span>Category B (Car)</span>
+            </label>
+            <label class="checkbox-group">
+              <input type="checkbox" id="stamp-c">
+              <span>Category C (Truck)</span>
+            </label>
+            <label class="checkbox-group">
+              <input type="checkbox" id="stamp-d">
+              <span>Category D (Bus)</span>
+            </label>
+            <label class="checkbox-group">
+              <input type="checkbox" id="stamp-e">
+              <span>Category E (Trailer)</span>
+            </label>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Action buttons -->
+      <div class="button-group">
+        <button type="button" class="btn btn-secondary" onclick="resetToDefault()">Reset Defaults</button>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a href="index.html" class="btn btn-secondary">
+          View Verification Card
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+      </div>
+
+      <!-- QR Code and Link Area -->
+      <div id="qr-output-section" style="margin-top: 25px; border-top: 1px solid #334155; padding-top: 20px; display: none; flex-direction: column; align-items: center; gap: 15px; text-align: center;">
+        <h3 style="font-size: 1rem; color: #38bdf8; font-weight: 700;">Shareable QR Verification Link</h3>
+        <div id="qr-code-box" style="padding: 10px; background-color: #ffffff; border-radius: 12px; width: 170px; height: 170px; display: flex; align-items: center; justify-content: center;">
+          <img id="qr-image" style="width: 150px; height: 150px;" src="" alt="QR Code">
+        </div>
+        <p style="font-size: 0.8rem; color: #cbd5e1; max-width: 90%; word-break: break-all;">
+          Verification Link: <br>
+          <a id="qr-link" href="#" target="_blank" style="color: #38bdf8; text-decoration: underline; font-weight: 600;"></a>
+        </p>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // Default values (Khandaker Masud)
+    const defaults = {
+      familyName: "Parvej",
+      givenName: "Khandaker Masud",
+      birthPlace: "Natore",
+      birthDate: "13-Jan-1983",
+      residence: "Gopalpur, Lalpur, Natore-6420",
+      sex: "Male",
+      nationality: "Bangladeshi",
+      idpNo: "45758/26",
+      licenceNo: "DK11150853CL0001",
+      issueDate: "21-May-2026",
+      expiryDate: "20-May-2027",
+      exclusions1: "",
+      exclusions2: "",
+      exclusions3: "",
+      photoDataUrl: "",
+      stamps: {
+        a: true,
+        b: true,
+        c: true,
+        d: false,
+        e: false
+      }
+    };
+
+    let currentPhotoDataUrl = "";
+
+    // Load values into form on load
+    document.addEventListener('DOMContentLoaded', () => {
+      loadData();
+    });
+
+    function loadData() {
+      const savedDataStr = localStorage.getItem('idpData');
+      let data = defaults;
+      
+      if (savedDataStr) {
+        try {
+          data = JSON.parse(savedDataStr);
+        } catch(e) {
+          console.error("Error loading saved data", e);
+        }
+      }
+
+      // Populate inputs
+      document.getElementById('familyName').value = data.familyName || "";
+      document.getElementById('givenName').value = data.givenName || "";
+      document.getElementById('birthPlace').value = data.birthPlace || "";
+      document.getElementById('birthDate').value = data.birthDate || "";
+      document.getElementById('residence').value = data.residence || "";
+      document.getElementById('sex').value = data.sex || "Male";
+      document.getElementById('nationality').value = data.nationality || "";
+      document.getElementById('idpNo').value = data.idpNo || "";
+      document.getElementById('licenceNo').value = data.licenceNo || "";
+      document.getElementById('issueDate').value = data.issueDate || "";
+      document.getElementById('expiryDate').value = data.expiryDate || "";
+      document.getElementById('exclusions1').value = data.exclusions1 || "";
+      document.getElementById('exclusions2').value = data.exclusions2 || "";
+      document.getElementById('exclusions3').value = data.exclusions3 || "";
+
+      // Checkboxes
+      document.getElementById('stamp-a').checked = !!(data.stamps && data.stamps.a);
+      document.getElementById('stamp-b').checked = !!(data.stamps && data.stamps.b);
+      document.getElementById('stamp-c').checked = !!(data.stamps && data.stamps.c);
+      document.getElementById('stamp-d').checked = !!(data.stamps && data.stamps.d);
+      document.getElementById('stamp-e').checked = !!(data.stamps && data.stamps.e);
+
+      // Photo
+      const previewBox = document.getElementById('photo-preview-box');
+      if (data.photoDataUrl) {
+        currentPhotoDataUrl = data.photoDataUrl;
+        previewBox.innerHTML = `<img src="${data.photoDataUrl}" alt="Driver Photo">`;
+      } else {
+        currentPhotoDataUrl = "";
+        previewBox.innerHTML = `<span id="preview-placeholder">No Image<br>Uploaded</span>`;
+      }
+
+      // Generate QR Code on load
+      generateQR(data);
+    }
+
+    function handlePhotoUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        currentPhotoDataUrl = e.target.result;
+        const previewBox = document.getElementById('photo-preview-box');
+        previewBox.innerHTML = `<img src="${currentPhotoDataUrl}" alt="Driver Photo">`;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function generateQR(data) {
+      // Serialize and encode UTF-8 JSON to URL-safe Base64
+      const jsonStr = JSON.stringify(data);
+      const base64 = btoa(unescape(encodeURIComponent(jsonStr)))
+                       .replace(/\//g, '_')
+                       .replace(/\+/g, '-');
+      
+      // Target domain link
+      const verificationLink = `${window.location.origin}${window.location.pathname.replace('admin.html', 'index.html')}?d=${base64}`;
+      
+      // Update DOM
+      document.getElementById('qr-link').href = verificationLink;
+      document.getElementById('qr-link').textContent = verificationLink;
+      
+      // Call QR Server API to render QR Code image
+      const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&color=0f172a&data=${encodeURIComponent(verificationLink)}`;
+      document.getElementById('qr-image').src = qrApiUrl;
+      
+      // Show section
+      document.getElementById('qr-output-section').style.display = 'flex';
+    }
+
+    function saveData(event) {
+      event.preventDefault();
+
+      const data = {
+        familyName: document.getElementById('familyName').value.trim(),
+        givenName: document.getElementById('givenName').value.trim(),
+        birthPlace: document.getElementById('birthPlace').value.trim(),
+        birthDate: document.getElementById('birthDate').value.trim(),
+        residence: document.getElementById('residence').value.trim(),
+        sex: document.getElementById('sex').value,
+        nationality: document.getElementById('nationality').value.trim(),
+        idpNo: document.getElementById('idpNo').value.trim(),
+        licenceNo: document.getElementById('licenceNo').value.trim(),
+        issueDate: document.getElementById('issueDate').value.trim(),
+        expiryDate: document.getElementById('expiryDate').value.trim(),
+        exclusions1: document.getElementById('exclusions1').value.trim(),
+        exclusions2: document.getElementById('exclusions2').value.trim(),
+        exclusions3: document.getElementById('exclusions3').value.trim(),
+        photoDataUrl: currentPhotoDataUrl,
+        stamps: {
+          a: document.getElementById('stamp-a').checked,
+          b: document.getElementById('stamp-b').checked,
+          c: document.getElementById('stamp-c').checked,
+          d: document.getElementById('stamp-d').checked,
+          e: document.getElementById('stamp-e').checked
+        }
+      };
+
+      localStorage.setItem('idpData', JSON.stringify(data));
+      generateQR(data);
+      showToast();
+    }
+
+    function resetToDefault() {
+      if (confirm("Are you sure you want to reset all fields to their original default values?")) {
+        localStorage.removeItem('idpData');
+        loadData();
+        showToast();
+      }
+    }
+
+    function showToast() {
+      const toast = document.getElementById('toast-success');
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+  </script>
+</body>
+</html>

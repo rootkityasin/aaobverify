@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 680" width="800" height="680">
+  <!-- Card base color (slightly off-white cream) -->
+  <rect width="800" height="680" fill="#fafcf9" />
+  
+
+  <!-- Security Watermark (Center Rosette) -->
+  <g opacity="0.16" stroke="#3d824d" fill="none">
+    <!-- Concentric core -->
+    <circle cx="400" cy="340" r="230" stroke-width="0.75" />
+    <circle cx="400" cy="340" r="222" stroke-width="0.5" stroke-dasharray="2,2" />
+    <circle cx="400" cy="340" r="215" stroke-width="1" stroke-dasharray="8,4" />
+    <circle cx="400" cy="340" r="200" stroke-width="0.75" />
+    <circle cx="400" cy="340" r="190" stroke-width="0.5" />
+    <circle cx="400" cy="340" r="178" stroke-width="1.25" stroke-dasharray="4,4" />
+    <circle cx="400" cy="340" r="165" stroke-width="0.75" />
+    
+    <!-- Guilloche Petals (wavy lines) -->
+    <!-- 24 overlapping circles to create rosette pattern -->
+    <g stroke-width="0.75">
+      <circle cx="400" cy="220" r="120" />
+      <circle cx="400" cy="460" r="120" />
+      <circle cx="280" cy="340" r="120" />
+      <circle cx="520" cy="340" r="120" />
+      
+      <circle cx="315" cy="255" r="120" />
+      <circle cx="485" cy="425" r="120" />
+      <circle cx="315" cy="425" r="120" />
+      <circle cx="485" cy="255" r="120" />
+      
+      <circle cx="357" cy="230" r="120" />
+      <circle cx="443" cy="450" r="120" />
+      <circle cx="357" cy="450" r="120" />
+      <circle cx="443" cy="230" r="120" />
+      
+      <circle cx="300" cy="290" r="120" />
+      <circle cx="500" cy="390" r="120" />
+      <circle cx="300" cy="390" r="120" />
+      <circle cx="500" cy="290" r="120" />
+    </g>
+
+    <!-- Star spokes -->
+    <g stroke-width="0.5">
+      <line x1="400" y1="100" x2="400" y2="580" />
+      <line x1="160" y1="340" x2="640" y2="340" />
+      <line x1="230" y1="170" x2="570" y2="510" />
+      <line x1="230" y1="510" x2="570" y2="170" />
+    </g>
+    
+    <!-- Central star burst -->
+    <polygon points="400,230 420,310 500,310 430,340 450,420 400,370 350,420 370,340 300,310 380,310" stroke-width="1" />
+  </g>
+
+  <!-- Corner filigree decorations (faint green leaf/scroll patterns) -->
+  <!-- Top-Left -->
+  <g stroke="#cbdcc5" stroke-width="0.8" fill="none" opacity="0.8">
+    <path d="M 25 55 C 38 55, 48 45, 48 25" />
+    <path d="M 25 65 C 45 65, 58 52, 58 25" />
+    <path d="M 25 75 C 52 75, 68 58, 68 25" />
+    <path d="M 25 25 Q 45 45 25 65 Q 45 45 65 25" />
+    <path d="M 30 30 C 40 40, 50 35, 45 55 C 55 45, 55 35, 30 30 Z" />
+  </g>
+  
+  <!-- Top-Right -->
+  <g stroke="#cbdcc5" stroke-width="0.8" fill="none" opacity="0.8" transform="translate(800,0) scale(-1,1)">
+    <path d="M 25 55 C 38 55, 48 45, 48 25" />
+    <path d="M 25 65 C 45 65, 58 52, 58 25" />
+    <path d="M 25 75 C 52 75, 68 58, 68 25" />
+    <path d="M 25 25 Q 45 45 25 65 Q 45 45 65 25" />
+    <path d="M 30 30 C 40 40, 50 35, 45 55 C 55 45, 55 35, 30 30 Z" />
+  </g>
+  
+  <!-- Bottom-Left -->
+  <g stroke="#cbdcc5" stroke-width="0.8" fill="none" opacity="0.8" transform="translate(0,680) scale(1,-1)">
+    <path d="M 25 55 C 38 55, 48 45, 48 25" />
+    <path d="M 25 65 C 45 65, 58 52, 58 25" />
+    <path d="M 25 75 C 52 75, 68 58, 68 25" />
+    <path d="M 25 25 Q 45 45 25 65 Q 45 45 65 25" />
+    <path d="M 30 30 C 40 40, 50 35, 45 55 C 55 45, 55 35, 30 30 Z" />
+  </g>
+  
+  <!-- Bottom-Right -->
+  <g stroke="#cbdcc5" stroke-width="0.8" fill="none" opacity="0.8" transform="translate(800,680) scale(-1,-1)">
+    <path d="M 25 55 C 38 55, 48 45, 48 25" />
+    <path d="M 25 65 C 45 65, 58 52, 58 25" />
+    <path d="M 25 75 C 52 75, 68 58, 68 25" />
+    <path d="M 25 25 Q 45 45 25 65 Q 45 45 65 25" />
+    <path d="M 30 30 C 40 40, 50 35, 45 55 C 55 45, 55 35, 30 30 Z" />
+  </g>
+</svg>
