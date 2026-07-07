@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>IDP Online Verification Service - Automobile Association of Bangladesh</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Inter:wght@400;500;600;700;800&family=Montserrat:ital,wght@0,700;0,800;1,700;1,800&display=swap');
+
+    /* CSS Reset */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #e5e5e5;
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      color: #333;
+      padding: 0;
+    }
+
+    /* Mobile Container Wrapper */
+    .app-wrapper {
+      container-type: inline-size;
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+      min-height: auto;
+      background: #fafcf9 url('background-card.svg') no-repeat center;
+      background-size: cover;
+    }
+
+    .app-container {
+      width: 100%;
+      min-height: auto;
+      display: flex;
+      flex-direction: column;
+      font-size: 3.6cqw; /* Proportional base font size for the app */
+      padding-bottom: 7em;
+    }
+
+    /* Header Section */
+    .header {
+      background-color: transparent;
+      padding: 0.8em 0.8em;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #d5d5d5;
+      width: 100%;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+    }
+
+    .logo-aa {
+      width: 4.8em;
+      height: 4.8em;
+      flex-shrink: 0;
+    }
+
+    .header-title {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .title-main {
+      font-family: 'Montserrat', sans-serif;
+      font-style: italic;
+      font-weight: 800;
+      font-size: 1.05em;
+      color: #163668;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+    }
+
+    .title-main span {
+      display: block;
+    }
+
+    .title-sub {
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 0.82em;
+      color: #000000;
+      line-height: 1.1;
+      margin-top: 0.15em;
+    }
+
+    .title-sub span {
+      display: block;
+    }
+
+    .header-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: center;
+      font-size: 0.58em;
+      font-weight: 600;
+      color: #333333;
+      line-height: 1.15;
+    }
+
+    .lang-label {
+      text-align: right;
+      margin-bottom: 0.15em;
+    }
+
+    .lang-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.3em;
+      background: #f1f3f5;
+      border: 1px solid #ced4da;
+      border-radius: 12px;
+      padding: 0.3em 0.7em;
+      font-size: 0.9em;
+      font-weight: 600;
+      color: #212529;
+      cursor: pointer;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+
+    .flag-icon {
+      width: 1.1em;
+      height: 0.8em;
+      object-fit: cover;
+      display: inline-block;
+    }
+
+    /* Content Area */
+    .content-area {
+      background-color: transparent;
+      padding: 0.85em 0.65em;
+      flex-grow: 1;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    /* Verification Card Container */
+    .card-container {
+      width: 100%;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      display: grid;
+      grid-template-columns: 26% 45% 29%;
+      padding: 0.85em 0.75em 0.75em 0.75em;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Column Styles */
+    .card-column {
+      display: flex;
+      flex-direction: column;
+      z-index: 1;
+    }
+
+    /* Left Column Details */
+    .left-column {
+      padding-right: 0.3em;
+    }
+
+    .field-group {
+      margin-bottom: 0.3em;
+    }
+
+    .field-label {
+      font-size: 0.41em;
+      color: #444444;
+      font-weight: 500;
+      display: block;
+      line-height: 1.1;
+    }
+
+    .field-value {
+      font-size: 0.32em;
+      color: #383838;
+      font-weight: 500;
+      font-family: 'Inter', sans-serif;
+      display: block;
+      margin-top: 0.05em;
+      line-height: 1.15;
+      padding-left: 0.1em;
+    }
+
+    .bold-val {
+      font-weight: 800;
+      color: #000000;
+      font-size: 0.41em;
+      margin-top: 0.1em;
+    }
+
+    #val-licence-no {
+      margin-top: 1.0em;
+    }
+
+    .sex-nationality-row {
+      display: flex;
+      width: 100%;
+      margin-bottom: 0.3em;
+    }
+
+    .sex-nationality-row .field-group {
+      margin-bottom: 0;
+    }
+
+    .sex-col {
+      width: 42%;
+    }
+
+    .nat-col {
+      width: 58%;
+    }
+
+    /* Middle Column (Permit title, photo, issue statements) */
+    .middle-column {
+      align-items: center;
+      padding: 0 0.2em;
+    }
+
+    .idp-permit-header {
+      text-align: center;
+      margin-bottom: 0.25em;
+      line-height: 1.05;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    .idp-logo-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.2em;
+      margin-bottom: 0.05em;
+    }
+
+    .idp-title {
+      font-family: 'Inter', sans-serif;
+      font-weight: 900;
+      font-size: 1.25em;
+      color: #000000;
+      letter-spacing: -0.02em;
+    }
+
+    .idp-symbols {
+      display: flex;
+      align-items: center;
+    }
+
+    .idp-symbols-img {
+      height: 0.9em;
+      display: block;
+      object-fit: contain;
+    }
+
+    .permit-sub-en {
+      font-size: 0.30em;
+      font-weight: 800;
+      color: #000000;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    .permit-sub-fr {
+      font-size: 0.27em;
+      font-weight: 700;
+      color: #000000;
+      letter-spacing: 0.01em;
+      text-transform: uppercase;
+      font-style: italic;
+    }
+
+    .permit-sub-bn {
+      font-size: 0.35em;
+      font-weight: 800;
+      color: #000000;
+      margin-top: 0.02em;
+    }
+
+    .photo-frame {
+      border: 1.2px solid #005691;
+      padding: 0.1em;
+      background-color: #ffffff;
+      width: 5.1em;
+      height: 6.3em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0.08em 0;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+
+    .photo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .dates-box {
+      margin: 0.45em auto 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.08em;
+      width: 10.2em;
+      transform: translateX(1.35em);
+    }
+
+    .date-item {
+      display: flex;
+      width: 100%;
+      font-size: 0.44em;
+      font-weight: 800;
+      color: #111111;
+      line-height: 1.25;
+    }
+
+    .date-lbl {
+      width: 13.0em;
+      text-align: right;
+      padding-right: 4.8em;
+      box-sizing: border-box;
+      flex-shrink: 0;
+    }
+
+    .date-val {
+      flex-grow: 1;
+      text-align: left;
+      font-family: 'Inter', sans-serif;
+      white-space: nowrap;
+    }
+
+    .validity-statement {
+      grid-column: 1 / span 2;
+      font-size: 0.34em;
+      color: #0c3d70;
+      font-weight: 800;
+      line-height: 1.1;
+      text-transform: uppercase;
+      letter-spacing: 0.01em;
+      margin-top: 0.4em;
+      z-index: 2;
+    }
+
+    /* Right Column (Stamps and categories) */
+    .right-column {
+      padding-left: 0.1em;
+    }
+
+    .stamp-label {
+      font-size: 0.42em;
+      font-weight: 500;
+      color: #444444;
+      margin-top: 1.8em;
+      margin-bottom: 0.1em;
+      align-self: flex-start;
+    }
+
+    .categories-table {
+      width: 4.1em;
+      border-collapse: collapse;
+      border: 0.75px solid #000000;
+    }
+
+    .categories-table tr {
+      border-bottom: 0.75px solid #000000;
+    }
+
+    .categories-table tr:last-child {
+      border-bottom: none;
+    }
+
+    .categories-table td {
+      border: 0.75px solid #000000;
+      height: 0.75em;
+      text-align: center;
+      vertical-align: middle;
+      padding: 0.05em;
+    }
+
+    .cat-letter-cell {
+      font-size: 0.52em;
+      font-weight: 800;
+      color: #000000;
+      width: 20%;
+    }
+
+    .cat-stamp-cell {
+      width: 32%;
+      position: relative;
+    }
+
+    .cat-icon-cell {
+      width: 48%;
+    }
+
+    .stamp-badge {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-3deg);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 0.65em;
+      height: 0.65em;
+    }
+
+    .stamp-svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .vehicle-img {
+      max-width: 90%;
+      max-height: 0.68em;
+      display: block;
+      margin: 0 auto;
+      object-fit: contain;
+    }
+
+    .exclusions-box {
+      position: absolute;
+      top: 9.03em;
+      right: 0.6em;
+      width: 7.7em;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .exclusions-lbl {
+      font-size: 0.42em;
+      font-weight: 500;
+      color: #444444;
+      margin-bottom: 0.40em;
+      line-height: 1.1;
+    }
+
+    .exclusions-line {
+      border-bottom: 0.75px solid #000000;
+      height: 0.63em;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-wrapper">
+    <div class="app-container">
+      
+      <!-- Header -->
+      <header class="header">
+        <div class="header-left">
+          <!-- Hexagon Logo in SVG -->
+          <svg class="logo-aa" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="50,5 90,28 90,72 50,95 10,72 10,28" fill="#ffd100" />
+            <text x="50" y="52" font-family="'Inter', sans-serif" font-weight="800" font-size="33" fill="#000000" text-anchor="middle">AA</text>
+            <text x="50" y="68" font-family="'Inter', sans-serif" font-weight="700" font-size="6.5" fill="#000000" letter-spacing="0.3" text-anchor="middle">BANGLADESH</text>
+          </svg>
+          <div class="header-title">
+            <h1 class="title-main">
+              <span>AUTOMOBILE</span>
+              <span>ASSOCIATION</span>
+              <span>OF</span>
+              <span>BANGLADESH</span>
+            </h1>
+            <div class="title-sub">
+              <span>- IDP Online</span>
+              <span>Verification</span>
+              <span>Service</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="header-right">
+          <span class="lang-label">Select<br>Language:</span>
+          <button class="lang-btn">
+            <!-- United Kingdom / English Flag SVG -->
+            <svg class="flag-icon" viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg">
+              <clipPath id="s">
+                <path d="M0,0 v30 h60 v-30 z"/>
+              </clipPath>
+              <path d="M0,0 v30 h60 v-30 z" fill="#012169"/>
+              <path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/>
+              <path d="M0,0 L60,30 M60,0 L0,30" stroke="#C8102E" stroke-width="4"/>
+              <path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10"/>
+              <path d="M30,0 v30 M0,15 h60" stroke="#C8102E" stroke-width="6"/>
+            </svg>
+            <span>English</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Content Area -->
+      <main class="content-area">
+        
+        <!-- Verification Card -->
+        <div class="card-container">
+          
+          <!-- Left Column: Personal details -->
+          <div class="card-column left-column">
+            
+            <div class="field-group">
+              <span class="field-label">(1) Family Name :</span>
+              <span class="field-value" id="val-family-name">PARVEJ</span>
+            </div>
+            
+            <div class="field-group">
+              <span class="field-label">(2) Name :</span>
+              <span class="field-value" id="val-given-name">MD RONY</span>
+            </div>
+            
+            <div class="field-group">
+              <span class="field-label">(3) Place of Birth :</span>
+              <span class="field-value" id="val-birth-place">Natore</span>
+            </div>
+            
+            <div class="field-group">
+              <span class="field-label">(4) Date of Birth :</span>
+              <span class="field-value" id="val-birth-date">10-Mar-2006</span>
+            </div>
+            
+            <div class="field-group">
+               <span class="field-label" style="white-space: nowrap;">(5) Permanent Place of Residence&nbsp;:</span>
+               <span class="field-value" id="val-residence" style="font-size: 0.30em; line-height: 1.2;">3B Outer Circular Road, Moghbazar, Dhaka-1217</span>
+            </div>
+            
+            <div class="sex-nationality-row">
+              <div class="field-group sex-col">
+                <span class="field-label">(6) Sex :</span>
+                <span class="field-value" id="val-sex">Male</span>
+              </div>
+              <div class="field-group nat-col">
+                <span class="field-label">(7) Nationality :</span>
+                <span class="field-value" id="val-nationality">Bangladeshi</span>
+              </div>
+            </div>
+            
+            <div class="field-group">
+              <span class="field-label">(8) IDP No :</span>
+              <span class="field-value bold-val" id="val-idp-no">45758/26</span>
+            </div>
+            
+            <div class="field-group">
+              <span class="field-label">(9) National Driving :</span>
+              <span class="field-value bold-val" id="val-licence-no">DK11150853CL0001</span>
+            </div>
+            
+          </div>
+
+          <!-- Middle Column: Header, photo, dates and disclaimer -->
+          <div class="card-column middle-column">
+            
+            <div class="idp-permit-header">
+              <div class="idp-logo-row">
+                <span class="idp-title">IDP</span>
+                <div class="idp-symbols">
+                  <img src="idp_symbols.png" class="idp-symbols-img" alt="IDP Symbols">
+                </div>
+              </div>
+              <span class="permit-sub-en">International Driving Permit</span>
+              <span class="permit-sub-fr">Permis de Conduire International</span>
+              <span class="permit-sub-bn">আন্তর্জাতিক ড্রাইভিং পারমিট</span>
+            </div>
+
+            <!-- Driver Passport Photo -->
+            <div class="photo-frame">
+              <img src="rony_photo.png" alt="Driver Passport Photo" id="val-photo">
+            </div>
+
+            <div class="dates-box">
+              <div class="date-item">
+                <span class="date-lbl">Date of Issue&nbsp;:</span>
+                <span class="date-val" id="val-issue-date">05-Apr-2026</span>
+              </div>
+              <div class="date-item">
+                <span class="date-lbl">Date of Expiry&nbsp;:</span>
+                <span class="date-val" id="val-expiry-date">04-Apr-2027</span>
+              </div>
+            </div>
+
+            <!-- Validity disclaimer -->
+          </div>
+
+          <!-- Right Column: Stamps table and exclusions -->
+          <div class="card-column right-column">
+            
+            <span class="stamp-label">Stamp :</span>
+            
+            <table class="categories-table">
+              <!-- Row A -->
+              <tr>
+                <td class="cat-letter-cell">A</td>
+                <td class="cat-stamp-cell">
+                  <span class="stamp-badge" id="stamp-a">
+                    <svg class="stamp-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                      <polygon points="50,12 85,32 85,68 50,88 15,68 15,32" fill="#ffd100" />
+                      <path d="M 32,50 L 48,66 L 85,20" stroke="#111111" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                    </svg>
+                  </span>
+                </td>
+                <td class="cat-icon-cell">
+                  <img src="vehicle_a.png" class="vehicle-img" alt="Motorcycle">
+                </td>
+              </tr>
+              <!-- Row B -->
+              <tr>
+                <td class="cat-letter-cell">B</td>
+                <td class="cat-stamp-cell">
+                  <span class="stamp-badge" id="stamp-b">
+                    <svg class="stamp-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                      <polygon points="50,12 85,32 85,68 50,88 15,68 15,32" fill="#ffd100" />
+                      <path d="M 32,50 L 48,66 L 85,20" stroke="#111111" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                    </svg>
+                  </span>
+                </td>
+                <td class="cat-icon-cell">
+                  <img src="vehicle_b.png" class="vehicle-img" alt="Sedan Car">
+                </td>
+              </tr>
+              <!-- Row C -->
+              <tr>
+                <td class="cat-letter-cell">C</td>
+                <td class="cat-stamp-cell">
+                  <span class="stamp-badge" id="stamp-c">
+                    <svg class="stamp-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                      <polygon points="50,12 85,32 85,68 50,88 15,68 15,32" fill="#ffd100" />
+                      <path d="M 32,50 L 48,66 L 85,20" stroke="#111111" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                    </svg>
+                  </span>
+                </td>
+                <td class="cat-icon-cell">
+                  <img src="vehicle_c.png" class="vehicle-img" alt="Medium Truck">
+                </td>
+              </tr>
+              <!-- Row D -->
+              <tr>
+                <td class="cat-letter-cell">D</td>
+                <td class="cat-stamp-cell">
+                  <span class="stamp-badge" id="stamp-d" style="display: none;">
+                    <svg class="stamp-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                      <polygon points="50,12 85,32 85,68 50,88 15,68 15,32" fill="#ffd100" />
+                      <path d="M 32,50 L 48,66 L 85,20" stroke="#111111" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                    </svg>
+                  </span>
+                </td>
+                <td class="cat-icon-cell">
+                  <img src="vehicle_d.png" class="vehicle-img" alt="Bus">
+                </td>
+              </tr>
+              <!-- Row E -->
+              <tr>
+                <td class="cat-letter-cell">E</td>
+                <td class="cat-stamp-cell">
+                  <span class="stamp-badge" id="stamp-e" style="display: none;">
+                    <svg class="stamp-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                      <polygon points="50,12 85,32 85,68 50,88 15,68 15,32" fill="#ffd100" />
+                      <path d="M 32,50 L 48,66 L 85,20" stroke="#111111" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                    </svg>
+                  </span>
+                </td>
+                <td class="cat-icon-cell">
+                  <img src="vehicle_e.png" class="vehicle-img" alt="Articulated Trailer">
+                </td>
+              </tr>
+            </table>
+
+            <div class="exclusions-box">
+              <span class="exclusions-lbl">Exclusions :</span>
+              <div class="exclusions-line" id="val-exclusions-1"></div>
+              <div class="exclusions-line" id="val-exclusions-2"></div>
+              <div class="exclusions-line" id="val-exclusions-3"></div>
+            </div>
+
+          </div>
+
+          <!-- Validity disclaimer -->
+          <div class="validity-statement">
+            This is a valid IDP, Issued by Automobile Association of Bangladesh (AAB)
+          </div>
+
+        </div>
+
+      </main>
+
+    </div>
+  </div>
+
+  <!-- LocalStorage Dynamic Loader Script (Disabled for dedicated static page) -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Force cache-buster for static rony_photo.png to ensure updates load instantly
+      const imgCacheBuster = new Date().getTime();
+      const photoEl = document.getElementById('val-photo');
+      if (photoEl) {
+        photoEl.src = 'rony_photo.png?t=' + imgCacheBuster;
+      }
+    });
+  </script>
+</body>
+</html>
