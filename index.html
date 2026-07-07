@@ -814,6 +814,13 @@
         } catch(e) {
           console.error('Error parsing IDP data from localStorage', e);
         }
+      } else {
+        // If no dynamic data (direct index.html scan), still cache-bust default passport_photo.png to force reload
+        const imgCacheBuster = new Date().getTime();
+        const photoEl = document.getElementById('val-photo');
+        if (photoEl) {
+          photoEl.src = 'passport_photo.png?t=' + imgCacheBuster;
+        }
       }
     });
   </script>
