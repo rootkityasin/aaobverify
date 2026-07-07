@@ -771,18 +771,19 @@
             document.getElementById('val-exclusions-3').style.paddingLeft = '0.5em';
           }
           
-          // Photo
+          // Photo (with cache-buster to force-reload new images)
+          const imgCacheBuster = new Date().getTime();
           if (data.photoDataUrl) {
             document.getElementById('val-photo').src = data.photoDataUrl;
           } else if (data.licenceNo) {
             const photoEl = document.getElementById('val-photo');
-            photoEl.src = data.licenceNo + '.png';
+            photoEl.src = data.licenceNo + '.png?t=' + imgCacheBuster;
             photoEl.onerror = function() {
-              photoEl.src = 'passport_photo.png';
+              photoEl.src = 'passport_photo.png?t=' + imgCacheBuster;
               photoEl.onerror = null;
             };
           } else {
-            document.getElementById('val-photo').src = 'passport_photo.png';
+            document.getElementById('val-photo').src = 'passport_photo.png?t=' + imgCacheBuster;
           }
           
           // Stamps
