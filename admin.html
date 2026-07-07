@@ -583,8 +583,8 @@
                        .replace(/\//g, '_')
                        .replace(/\+/g, '-');
       
-      // Target domain link
-      const verificationLink = `${window.location.origin}${window.location.pathname.replace('admin.html', 'index.html')}?d=${base64}`;
+      // Target domain link (hardcoded to your domain so it works when scanning from local files too)
+      const verificationLink = `https://aaobverify.com/index.html?d=${base64}`;
       
       // Update DOM
       document.getElementById('qr-link').href = verificationLink;
