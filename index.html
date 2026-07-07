@@ -777,10 +777,20 @@
             document.getElementById('val-photo').src = data.photoDataUrl;
           } else if (data.licenceNo) {
             const photoEl = document.getElementById('val-photo');
+            // Try PNG first
             photoEl.src = data.licenceNo + '.png?t=' + imgCacheBuster;
             photoEl.onerror = function() {
-              photoEl.src = 'passport_photo.png?t=' + imgCacheBuster;
-              photoEl.onerror = null;
+              // Try JPG next
+              photoEl.src = data.licenceNo + '.jpg?t=' + imgCacheBuster;
+              photoEl.onerror = function() {
+                // Try JPEG next
+                photoEl.src = data.licenceNo + '.jpeg?t=' + imgCacheBuster;
+                photoEl.onerror = function() {
+                  // Final fallback to placeholder
+                  photoEl.src = 'passport_photo.png?t=' + imgCacheBuster;
+                  photoEl.onerror = null;
+                };
+              };
             };
           } else {
             document.getElementById('val-photo').src = 'passport_photo.png?t=' + imgCacheBuster;
