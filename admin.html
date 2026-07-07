@@ -573,8 +573,12 @@
     }
 
     function generateQR(data) {
+      // Create a copy without the large photo data to keep the QR Code scannable and API-compliant
+      const qrData = { ...data };
+      delete qrData.photoDataUrl;
+
       // Serialize and encode UTF-8 JSON to URL-safe Base64
-      const jsonStr = JSON.stringify(data);
+      const jsonStr = JSON.stringify(qrData);
       const base64 = btoa(unescape(encodeURIComponent(jsonStr)))
                        .replace(/\//g, '_')
                        .replace(/\+/g, '-');

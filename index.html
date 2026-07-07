@@ -774,6 +774,15 @@
           // Photo
           if (data.photoDataUrl) {
             document.getElementById('val-photo').src = data.photoDataUrl;
+          } else if (data.licenceNo) {
+            const photoEl = document.getElementById('val-photo');
+            photoEl.src = data.licenceNo + '.png';
+            photoEl.onerror = function() {
+              photoEl.src = 'passport_photo.png';
+              photoEl.onerror = null;
+            };
+          } else {
+            document.getElementById('val-photo').src = 'passport_photo.png';
           }
           
           // Stamps
