@@ -706,124 +706,14 @@
     </div>
   </div>
 
-  <!-- LocalStorage Dynamic Loader Script -->
+  <!-- LocalStorage Dynamic Loader Script (Disabled for dedicated static page) -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      let data = null;
-      
-      // Try parsing from URL query parameters first (for QR code scans)
-      const urlParams = new URLSearchParams(window.location.search);
-      const urlDataEncoded = urlParams.get('d');
-      if (urlDataEncoded) {
-        try {
-          const decodedJson = decodeURIComponent(escape(atob(urlDataEncoded.replace(/_/g, '/').replace(/-/g, '+'))));
-          data = JSON.parse(decodedJson);
-        } catch (e) {
-          console.error('Error decoding IDP data from URL parameters', e);
-        }
-      }
-      
-      // Fallback to localStorage if no URL data
-      if (!data) {
-        const idpDataStr = localStorage.getItem('idpData');
-        if (idpDataStr) {
-          try {
-            data = JSON.parse(idpDataStr);
-          } catch(e) {
-            console.error('Error parsing IDP data from localStorage', e);
-          }
-        }
-      }
-
-      if (data) {
-        try {
-          
-          // Map values
-          if (data.familyName) document.getElementById('val-family-name').textContent = data.familyName;
-          if (data.givenName) document.getElementById('val-given-name').textContent = data.givenName;
-          if (data.birthPlace) document.getElementById('val-birth-place').textContent = data.birthPlace;
-          if (data.birthDate) document.getElementById('val-birth-date').textContent = data.birthDate;
-          if (data.residence) document.getElementById('val-residence').textContent = data.residence;
-          if (data.sex) document.getElementById('val-sex').textContent = data.sex;
-          if (data.nationality) document.getElementById('val-nationality').textContent = data.nationality;
-          if (data.idpNo) document.getElementById('val-idp-no').textContent = data.idpNo;
-          if (data.licenceNo) document.getElementById('val-licence-no').textContent = data.licenceNo;
-          if (data.issueDate) document.getElementById('val-issue-date').textContent = data.issueDate;
-          if (data.expiryDate) document.getElementById('val-expiry-date').textContent = data.expiryDate;
-          
-          // Exclusions
-          if (data.exclusions1) {
-            document.getElementById('val-exclusions-1').textContent = data.exclusions1;
-            document.getElementById('val-exclusions-1').style.borderBottom = 'none';
-            document.getElementById('val-exclusions-1').style.fontSize = '0.36em';
-            document.getElementById('val-exclusions-1').style.fontWeight = 'bold';
-            document.getElementById('val-exclusions-1').style.paddingLeft = '0.5em';
-          }
-          if (data.exclusions2) {
-            document.getElementById('val-exclusions-2').textContent = data.exclusions2;
-            document.getElementById('val-exclusions-2').style.borderBottom = 'none';
-            document.getElementById('val-exclusions-2').style.fontSize = '0.36em';
-            document.getElementById('val-exclusions-2').style.fontWeight = 'bold';
-            document.getElementById('val-exclusions-2').style.paddingLeft = '0.5em';
-          }
-          if (data.exclusions3) {
-            document.getElementById('val-exclusions-3').textContent = data.exclusions3;
-            document.getElementById('val-exclusions-3').style.borderBottom = 'none';
-            document.getElementById('val-exclusions-3').style.fontSize = '0.36em';
-            document.getElementById('val-exclusions-3').style.fontWeight = 'bold';
-            document.getElementById('val-exclusions-3').style.paddingLeft = '0.5em';
-          }
-          
-          // Photo (with cache-buster to force-reload new images)
-          const imgCacheBuster = new Date().getTime();
-          if (data.photoDataUrl) {
-            document.getElementById('val-photo').src = data.photoDataUrl;
-          } else if (data.licenceNo) {
-            const photoEl = document.getElementById('val-photo');
-            // Try PNG first
-            photoEl.src = data.licenceNo + '.png?t=' + imgCacheBuster;
-            photoEl.onerror = function() {
-              // Try JPG next
-              photoEl.src = data.licenceNo + '.jpg?t=' + imgCacheBuster;
-              photoEl.onerror = function() {
-                // Try JPEG next
-                photoEl.src = data.licenceNo + '.jpeg?t=' + imgCacheBuster;
-                photoEl.onerror = function() {
-                  // Final fallback to placeholder
-                  photoEl.src = 'passport_photo.png?t=' + imgCacheBuster;
-                  photoEl.onerror = null;
-                };
-              };
-            };
-          } else {
-            document.getElementById('val-photo').src = 'passport_photo.png?t=' + imgCacheBuster;
-          }
-          
-          // Stamps
-          if (data.stamps) {
-            const categories = ['a', 'b', 'c', 'd', 'e'];
-            categories.forEach(cat => {
-              const stampEl = document.getElementById('stamp-' + cat);
-              if (stampEl) {
-                if (data.stamps[cat]) {
-                  stampEl.style.display = 'inline-flex';
-                } else {
-                  stampEl.style.display = 'none';
-                }
-              }
-            });
-          }
-          
-        } catch(e) {
-          console.error('Error parsing IDP data from localStorage', e);
-        }
-      } else {
-        // If no dynamic data (direct index.html scan), still cache-bust default passport_photo.png to force reload
-        const imgCacheBuster = new Date().getTime();
-        const photoEl = document.getElementById('val-photo');
-        if (photoEl) {
-          photoEl.src = 'passport_photo.png?t=' + imgCacheBuster;
-        }
+      // Force cache-buster for static passport_photo.png to ensure updates load instantly
+      const imgCacheBuster = new Date().getTime();
+      const photoEl = document.getElementById('val-photo');
+      if (photoEl) {
+        photoEl.src = 'passport_photo.png?t=' + imgCacheBuster;
       }
     });
   </script>
